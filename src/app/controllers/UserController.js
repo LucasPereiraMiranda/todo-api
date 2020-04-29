@@ -19,7 +19,7 @@ class UserController {
     });
 
     // busca o usuario com o id autenticado na aplicacao
-    const user = await User.findById({ id: req.userId });
+    const user = await User.findById({ _id: req.userId });
 
     // verifica se o email e diferente do que
     // ja existia, se sim, verifique se ja ha um usuario com esse email
