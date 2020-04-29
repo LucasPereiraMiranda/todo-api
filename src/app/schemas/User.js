@@ -29,8 +29,18 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// eslint-disable-next-line consistent-return
-UserSchema.pre('save', next => {
+/* UserSchema.pre('save', async user => {
+  console.log(user);
+  if (user.password) {
+    this.user.password = await bcrypt.hash(this.user.password, 8);
+  }
+});
+
+UserSchema.methods.comparePassword = async password => {
+  return bcrypt.compare(password, this.password);
+}; */
+
+UserSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
     return next();
   }
@@ -39,11 +49,10 @@ UserSchema.pre('save', next => {
       return next(err);
     }
     this.password = hash;
-    return next();
+    next();
   });
 });
 
-// eslint-disable-next-line func-names
 UserSchema.methods.checkPassword = function(password) {
   const passwordHash = this.password;
   return new Promise((resolve, reject) => {
