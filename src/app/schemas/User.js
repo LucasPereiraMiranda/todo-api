@@ -29,17 +29,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/* UserSchema.pre('save', async user => {
-  console.log(user);
-  if (user.password) {
-    this.user.password = await bcrypt.hash(this.user.password, 8);
-  }
-});
-
-UserSchema.methods.comparePassword = async password => {
-  return bcrypt.compare(password, this.password);
-}; */
-
 UserSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
     return next();
