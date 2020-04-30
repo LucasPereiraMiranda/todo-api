@@ -1,21 +1,27 @@
-import { celebrate, Joi } from 'celebrate';
+import { celebrate, Joi, Segments, errors } from 'celebrate';
 
-export default {
-  userCreateValidator: celebrate({
-    body: Joi.object.keys({
-      name: String()
-        .name()
-        .required(),
-      email: String()
-        .email()
-        .required(),
-      password: String()
-        .password()
-        .limit(6)
-        .required(),
-      birthday: String()
-        .password()
-        .required(),
-    }),
+const userCreateValidator = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    name: Joi.string().required(),
+    email: Joi.string()
+      .required()
+      .email(),
+    birthday: Joi.date().required(),
+    password: Joi.string()
+      .required()
+      .min(6),
   }),
-};
+});
+
+const sessionCreateValidator = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string()
+      .required()
+      .email(),
+    password: Joi.string()
+      .required()
+      .min(6),
+  }),
+});
+
+export default { userCreateValidator, sessionCreateValidator, errors };
