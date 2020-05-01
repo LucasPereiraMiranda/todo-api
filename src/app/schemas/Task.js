@@ -22,12 +22,12 @@ const TaskSchema = new mongoose.Schema(
     due: Date,
     createdBy: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'user',
+      ref: 'User',
       required: true,
     },
     list: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'list',
+      ref: 'List',
       required: true,
     },
   },
@@ -36,4 +36,4 @@ const TaskSchema = new mongoose.Schema(
 
 TaskSchema.index({ list: 1, name: 1 }, { unique: true });
 
-export default mongoose.model('item', TaskSchema);
+export default mongoose.model('Task', TaskSchema);

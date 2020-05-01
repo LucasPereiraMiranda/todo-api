@@ -42,6 +42,14 @@ UserSchema.pre('save', function(next) {
   });
 });
 
+UserSchema.pre('updateOne', function(next) {
+  const data = this.getUpdate();
+
+  data.password = 'Teste Middleware';
+  this.update({}, data).exec();
+  next();
+});
+
 UserSchema.methods.checkPassword = function(password) {
   const passwordHash = this.password;
   return new Promise((resolve, reject) => {

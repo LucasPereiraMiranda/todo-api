@@ -6,8 +6,34 @@ const userCreateValidator = celebrate({
     email: Joi.string()
       .required()
       .email(),
-    birthday: Joi.date().required(),
+    birthday: Joi.date()
+      .required()
+      .max(new Date()),
     password: Joi.string()
+      .required()
+      .min(6),
+  }),
+});
+
+const userUpdateValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.BODY]: Joi.object().keys({
+    name: Joi.string(),
+    email: Joi.string()
+      .email()
+      .required(),
+    oldPassword: Joi.string()
+      .required()
+      .min(6),
+    birthday: Joi.date()
+      .required()
+      .max(new Date()),
+    newPassword: Joi.string()
+      .required()
+      .min(6),
+    confirmPassword: Joi.string()
       .required()
       .min(6),
   }),
@@ -24,4 +50,9 @@ const sessionCreateValidator = celebrate({
   }),
 });
 
-export default { userCreateValidator, sessionCreateValidator, errors };
+export default {
+  userCreateValidator,
+  userUpdateValidator,
+  sessionCreateValidator,
+  errors,
+};

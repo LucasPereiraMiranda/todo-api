@@ -14,35 +14,52 @@ class UserController {
   }
 
   async update(req, res) {
-    const { email, oldPassword } = await User.findOne({
-      email: req.body.email,
-    });
-
     // busca o usuario com o id autenticado na aplicacao
     const user = await User.findById({ _id: req.userId });
 
-    // verifica se o email e diferente do que
-    // ja existia, se sim, verifique se ja ha um usuario com esse email
-    if (email !== user.mail) {
-      const userExists = await User.findOne({ email });
-      if (userExists) {
-        return res
-          .status(400)
-          .json({ error: 'User with this email already exists' });
-      }
+    // verifica se o email e diferente igual ao atual
+    if (req.body.email === user.mail) {
+      return res.status(400).json({ error: 'not is possible change email' });
     }
 
-    if (!(await user.checkPassword(oldPassword)) && oldPassword) {
+    const match = await user.checkPassword(req.body.oldPassword);
+    console.log(req.body.oldPassword);
+    console.log(match);
+    if (req.body.oldPassword && !match) {
       res.status(401).json({ error: 'password does not match' });
     }
 
+    console.log('cheguei');
     // atualize o usuario
-    const { id, name } = await user.update(req.body);
-
+    const { _id, name, birthday, email } = await User.findByIdAndUpdate(
+      req.userId,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        birthday: req.body.birthday,
+        password: req.body.newPassword,
+      },
+      {
+        new: true,
+      }
+    )
+      .lean()
+      .exec();
+    console.log();
+    console.log();
+    console.log();
+    console.log(_id);
+    console.log(name);
+    console.log(birthday);
+    console.log(email);
+    console.log();
+    console.log();
+    console.log();
     return res.json({
-      id,
+      _id,
       name,
       email,
+      birthday,
     });
   }
 }
