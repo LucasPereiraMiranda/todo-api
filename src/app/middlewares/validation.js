@@ -27,9 +27,7 @@ const userUpdateValidator = celebrate({
     oldPassword: Joi.string()
       .required()
       .min(6),
-    birthday: Joi.date()
-      .required()
-      .max(new Date()),
+    birthday: Joi.date().max(new Date()),
     newPassword: Joi.string()
       .required()
       .min(6),

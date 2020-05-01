@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
@@ -42,11 +43,8 @@ UserSchema.pre('save', function(next) {
   });
 });
 
-UserSchema.pre('updateOne', function(next) {
-  const data = this.getUpdate();
-
-  data.password = 'Teste Middleware';
-  this.update({}, data).exec();
+UserSchema.pre('findOneAndUpdate', function(next) {
+  this._update.password = bcrypt.hashSync(this._update.password, 10);
   next();
 });
 

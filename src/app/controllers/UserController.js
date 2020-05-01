@@ -18,43 +18,27 @@ class UserController {
     const user = await User.findById({ _id: req.userId });
 
     // verifica se o email e diferente igual ao atual
-    if (req.body.email === user.mail) {
+    if (req.body.email !== user.email) {
       return res.status(400).json({ error: 'not is possible change email' });
     }
 
     const match = await user.checkPassword(req.body.oldPassword);
-    console.log(req.body.oldPassword);
-    console.log(match);
-    if (req.body.oldPassword && !match) {
-      res.status(401).json({ error: 'password does not match' });
+
+    if (!match) {
+      return res.status(401).json({ error: 'password does not match' });
     }
 
-    console.log('cheguei');
     // atualize o usuario
-    const { _id, name, birthday, email } = await User.findByIdAndUpdate(
+    const { _id, name, email, birthday } = await User.findByIdAndUpdate(
       req.userId,
-      {
-        name: req.body.name,
-        email: req.body.email,
-        birthday: req.body.birthday,
-        password: req.body.newPassword,
-      },
+      req.body,
       {
         new: true,
       }
     )
       .lean()
       .exec();
-    console.log();
-    console.log();
-    console.log();
-    console.log(_id);
-    console.log(name);
-    console.log(birthday);
-    console.log(email);
-    console.log();
-    console.log();
-    console.log();
+
     return res.json({
       _id,
       name,
