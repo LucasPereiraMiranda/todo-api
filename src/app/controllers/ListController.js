@@ -1,5 +1,5 @@
 import List from '../schemas/List';
-import verifyIfObjectIsEmpty from '../utils/verifyIfObjectIsEmpty';
+import verifyIfObjectIsEmpty from '../../utils/verifyIfObjectIsEmpty';
 
 class ListController {
   async index(req, res) {

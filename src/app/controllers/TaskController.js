@@ -1,6 +1,6 @@
 import Task from '../schemas/Task';
 import List from '../schemas/List';
-import verifyIfObjectIsEmpty from '../utils/verifyIfObjectIsEmpty';
+import verifyIfObjectIsEmpty from '../../utils/verifyIfObjectIsEmpty';
 
 class TaskController {
   async store(req, res) {
