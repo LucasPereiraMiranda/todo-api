@@ -12,6 +12,7 @@ routes.post(
   validatorMiddleware.userCreateValidator,
   UserConstroller.store
 );
+
 routes.post(
   '/sessions',
   validatorMiddleware.sessionCreateValidator,
@@ -31,12 +32,15 @@ routes.get(
   validatorMiddleware.listIndexValidator,
   ListController.index
 );
-
 routes.post(
   '/lists',
   validatorMiddleware.listCreateValidator,
   ListController.store
 );
+routes.get('/lists/:id', ListController.show);
+routes.put('/lists/:id', ListController.update);
+routes.delete('/lists/:id', ListController.delete);
 
 routes.use(validatorMiddleware.errors());
+
 export default routes;
