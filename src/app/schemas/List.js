@@ -21,6 +21,6 @@ const ListSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-ListSchema.index({ user: 1, name: 1 }, { unique: true });
+ListSchema.index({ User: 1, name: 1 }, { unique: true });
 
 export default mongoose.model('List', ListSchema);

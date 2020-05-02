@@ -1,21 +1,42 @@
 import { Router } from 'express';
 import UserConstroller from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
+import ListController from './app/controllers/ListController';
 import authMiddleware from './app/middlewares/auth';
-import validator from './app/middlewares/validation';
+import validatorMiddleware from './app/middlewares/validation';
 
 const routes = new Router();
 
-routes.post('/users', validator.userCreateValidator, UserConstroller.store);
+routes.post(
+  '/users',
+  validatorMiddleware.userCreateValidator,
+  UserConstroller.store
+);
 routes.post(
   '/sessions',
-  validator.sessionCreateValidator,
+  validatorMiddleware.sessionCreateValidator,
   SessionController.store
 );
 
 routes.use(authMiddleware);
 
-routes.put('/users', UserConstroller.update);
+routes.put(
+  '/users',
+  validatorMiddleware.userUpdateValidator,
+  UserConstroller.update
+);
 
-routes.use(validator.errors());
+routes.get(
+  '/lists',
+  validatorMiddleware.listIndexValidator,
+  ListController.index
+);
+
+routes.post(
+  '/lists',
+  validatorMiddleware.listCreateValidator,
+  ListController.store
+);
+
+routes.use(validatorMiddleware.errors());
 export default routes;
