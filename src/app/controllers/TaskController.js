@@ -1,11 +1,14 @@
 import Task from '../schemas/Task';
 import List from '../schemas/List';
+import verifyIfObjectIsEmpty from '../utils/verifyIfObjectIsEmpty';
 
 class TaskController {
-  async create(req, res) {
-    const listExists = await List.find({ _id: req.params.listId });
+  async store(req, res) {
+    const lists = await List.find({ _id: req.params.listId });
 
-    if (!listExists) {
+    const isEmpty = verifyIfObjectIsEmpty(lists);
+
+    if (isEmpty) {
       return res.status(400).json({ message: 'List id does not exists' });
     }
 
@@ -29,7 +32,9 @@ class TaskController {
       list: req.params.listId,
     });
 
-    if (!tasks) {
+    const isEmpty = verifyIfObjectIsEmpty(tasks);
+
+    if (isEmpty) {
       return res.status(400).json({ message: 'task not found' });
     }
 
@@ -51,13 +56,15 @@ class TaskController {
   }
 
   async delete(req, res) {
-    const taskExists = await Task.find({
+    const tasks = await Task.find({
       _id: req.params.taskId,
       list: req.params.listId,
       createdBy: req.userId,
     });
 
-    if (!taskExists) {
+    const isEmpty = verifyIfObjectIsEmpty(tasks);
+
+    if (isEmpty) {
       return res.status(400).json({ message: 'task not found' });
     }
 

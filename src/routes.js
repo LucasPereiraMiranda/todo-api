@@ -14,7 +14,6 @@ routes.post(
   validatorMiddleware.userCreateValidator,
   UserConstroller.store
 );
-
 routes.post(
   '/sessions',
   validatorMiddleware.sessionCreateValidator,
@@ -53,11 +52,26 @@ routes.delete(
   validatorMiddleware.listDeleteValidator,
   ListController.delete
 );
-
-routes.post('/lists/:listId/tasks', TaskController.create);
-routes.put('/lists/:listId/tasks/:taskId', TaskController.update);
-routes.delete('/lists/:listId/tasks/:taskId', TaskController.delete);
-routes.get('/lists/:listId/tasks', TaskController.index);
+routes.post(
+  '/lists/:listId/tasks',
+  validatorMiddleware.taskCreateValidator,
+  TaskController.store
+);
+routes.put(
+  '/lists/:listId/tasks/:taskId',
+  validatorMiddleware.taskUpdateValidator,
+  TaskController.update
+);
+routes.delete(
+  '/lists/:listId/tasks/:taskId',
+  validatorMiddleware.taskDeleteValidator,
+  TaskController.delete
+);
+routes.get(
+  '/lists/:listId/tasks',
+  validatorMiddleware.taskIndexValidator,
+  TaskController.index
+);
 
 routes.use(validatorMiddleware.errors());
 

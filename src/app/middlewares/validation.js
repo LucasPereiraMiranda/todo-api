@@ -97,6 +97,60 @@ const listDeleteValidator = celebrate({
   }),
 });
 
+const taskCreateValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    listId: Joi.string().required(),
+  }),
+  [Segments.BODY]: Joi.object().keys({
+    name: Joi.string()
+      .required()
+      .max(40),
+    status: Joi.string().valid('active', 'complete', 'pastdue'),
+    color: Joi.string(),
+    notes: Joi.string(),
+    due: Joi.date().min(new Date()),
+  }),
+});
+
+const taskUpdateValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    listId: Joi.string().required(),
+    taskId: Joi.string().required(),
+  }),
+  [Segments.BODY]: Joi.object().keys({
+    name: Joi.string().max(40),
+    status: Joi.string().valid('active', 'complete', 'pastdue'),
+    color: Joi.string(),
+    notes: Joi.string(),
+    due: Joi.date().min(new Date()),
+  }),
+});
+
+const taskDeleteValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    listId: Joi.string().required(),
+    taskId: Joi.string().required(),
+  }),
+});
+
+const taskIndexValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    listId: Joi.string().required(),
+  }),
+});
+
 export default {
   userCreateValidator,
   userUpdateValidator,
@@ -106,5 +160,9 @@ export default {
   listShowValidator,
   listUpdateValidator,
   listDeleteValidator,
+  taskCreateValidator,
+  taskUpdateValidator,
+  taskDeleteValidator,
+  taskIndexValidator,
   errors,
 };
