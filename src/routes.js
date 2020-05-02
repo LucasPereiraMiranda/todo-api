@@ -28,7 +28,6 @@ routes.put(
   validatorMiddleware.userUpdateValidator,
   UserConstroller.update
 );
-
 routes.get(
   '/lists',
   validatorMiddleware.listIndexValidator,
@@ -39,9 +38,21 @@ routes.post(
   validatorMiddleware.listCreateValidator,
   ListController.store
 );
-routes.get('/lists/:id', ListController.show);
-routes.put('/lists/:id', ListController.update);
-routes.delete('/lists/:id', ListController.delete);
+routes.get(
+  '/lists/:id',
+  validatorMiddleware.listShowValidator,
+  ListController.show
+);
+routes.put(
+  '/lists/:id',
+  validatorMiddleware.listUpdateValidator,
+  ListController.update
+);
+routes.delete(
+  '/lists/:id',
+  validatorMiddleware.listDeleteValidator,
+  ListController.delete
+);
 
 routes.post('/lists/:listId/tasks', TaskController.create);
 routes.put('/lists/:listId/tasks/:taskId', TaskController.update);

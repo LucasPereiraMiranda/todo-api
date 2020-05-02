@@ -66,11 +66,45 @@ const listCreateValidator = celebrate({
   }),
 });
 
+const listShowValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+});
+
+const listUpdateValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+  [Segments.BODY]: Joi.object().keys({
+    name: Joi.string().max(30),
+    description: Joi.string(),
+  }),
+});
+
+const listDeleteValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+});
+
 export default {
   userCreateValidator,
   userUpdateValidator,
   sessionCreateValidator,
   listIndexValidator,
   listCreateValidator,
+  listShowValidator,
+  listUpdateValidator,
+  listDeleteValidator,
   errors,
 };

@@ -1,4 +1,5 @@
 import List from '../schemas/List';
+import verifyIfObjectIsEmpty from '../utils/verifyIfObjectIsEmpty';
 
 class ListController {
   async index(req, res) {
@@ -13,9 +14,8 @@ class ListController {
     });
 
     if (!list) {
-      return res.status.json({ message: 'list not found' });
+      return res.status(400).json({ message: 'list not found' });
     }
-
     return res.json(list);
   }
 
@@ -25,7 +25,9 @@ class ListController {
       const list = await List.create(req.body);
       return res.json(list);
     } catch (err) {
-      return res.status(400).json({ error: 'Lists doesnt can have self name' });
+      return res
+        .status(400)
+        .json({ error: 'Lists does not can have repeated name' });
     }
   }
 
@@ -35,40 +37,45 @@ class ListController {
       _id: req.params.id,
     });
 
-    if (!listDocuments) {
-      return res.status.json({ message: 'list not found' });
+    const isEmpty = verifyIfObjectIsEmpty(listDocuments);
+    if (isEmpty) {
+      return res.status(400).json({ message: 'list not found' });
     }
 
     try {
-      const list = await List.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      })
+      const listUpdated = await List.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+          new: true,
+        }
+      )
         .lean()
         .exec();
-      return res.json(list);
+      return res.json(listUpdated);
     } catch (err) {
       return res
         .status(400)
-        .json({ message: 'Lists doesnt can have self name' });
+        .json({ message: 'Lists doesnt can have repeated name' });
     }
   }
 
   async delete(req, res) {
-    const list = await List.find({
+    const listDocuments = await List.find({
       createdBy: req.userId,
       _id: req.params.id,
     });
-
-    if (!list) {
-      return res.status.json({ message: 'list not found' });
+    const isEmpty = verifyIfObjectIsEmpty(listDocuments);
+    if (isEmpty) {
+      return res.status(400).json({ message: 'list not found' });
     }
 
-    const removed = await List.findOneAndRemove({
+    const listRemoved = await List.findOneAndRemove({
       createdBy: req.userId,
       _id: req.params.id,
     });
 
-    return res.json(removed);
+    return res.json(listRemoved);
   }
 }
 

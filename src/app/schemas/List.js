@@ -1,4 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
+// import Task from './Task';
 
 const ListSchema = new mongoose.Schema(
   {
@@ -22,5 +24,15 @@ const ListSchema = new mongoose.Schema(
 );
 
 ListSchema.index({ User: 1, name: 1 }, { unique: true });
+
+/* ListSchema.pre('remove', function(next) {
+  Task.remove(
+    { list: this._id },
+    { $pull: { list: this._id } },
+    { multi: true }
+  ) // if reference exists in multiple documents
+    .exec();
+  next();
+}); */
 
 export default mongoose.model('List', ListSchema);
