@@ -6,7 +6,7 @@ const TaskSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      maxlength: 50,
+      maxlength: 40,
     },
     status: {
       type: String,
@@ -34,6 +34,6 @@ const TaskSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-TaskSchema.index({ list: 1, name: 1 }, { unique: true });
+TaskSchema.index({ List: 1, name: 1 }, { unique: true });
 
 export default mongoose.model('Task', TaskSchema);
