@@ -16,4 +16,8 @@ const FileSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+FileSchema.virtual('url').get(function() {
+  return `${process.env.APP_URL}/files/${this.path}`;
+});
+
 export default mongoose.model('File', FileSchema);
