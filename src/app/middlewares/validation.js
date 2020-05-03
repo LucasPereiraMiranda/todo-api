@@ -34,6 +34,7 @@ const userUpdateValidator = celebrate({
     confirmPassword: Joi.string()
       .required()
       .min(6),
+    avatar_id: Joi.string(),
   }),
 });
 
@@ -46,6 +47,12 @@ const sessionCreateValidator = celebrate({
       .required()
       .min(6),
   }),
+});
+
+const fileCreateValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
 });
 
 const listIndexValidator = celebrate({
@@ -155,6 +162,7 @@ export default {
   userCreateValidator,
   userUpdateValidator,
   sessionCreateValidator,
+  fileCreateValidator,
   listIndexValidator,
   listCreateValidator,
   listShowValidator,
