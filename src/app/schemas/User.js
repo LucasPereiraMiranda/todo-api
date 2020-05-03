@@ -26,9 +26,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar_id: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'File',
+      required: false,
+    },
   },
   { timestamps: true }
 );
+
+UserSchema.index({ User: 1, avatar_id: 1 });
 
 UserSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
@@ -39,6 +46,8 @@ UserSchema.pre('save', function(next) {
       return next(err);
     }
     this.password = hash;
+    // user init without avatar
+    this.avatar_id = '5eaf2a81d8f13f12587c849a';
     next();
   });
 });
