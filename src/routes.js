@@ -1,18 +1,24 @@
 import { Router } from 'express';
-import UserConstroller from './app/controllers/UserController';
+
+import multer from 'multer';
+import UserController from './app/controllers/UserController';
+import FileController from './app/controllers/FileController';
 import SessionController from './app/controllers/SessionController';
 import ListController from './app/controllers/ListController';
 import TaskController from './app/controllers/TaskController';
+
+import multerConfig from './config/multer';
 
 import authMiddleware from './app/middlewares/auth';
 import validatorMiddleware from './app/middlewares/validation';
 
 const routes = new Router();
+const upload = multer(multerConfig);
 
 routes.post(
   '/users',
   validatorMiddleware.userCreateValidator,
-  UserConstroller.store
+  UserController.store
 );
 routes.post(
   '/sessions',
@@ -22,11 +28,21 @@ routes.post(
 
 routes.use(authMiddleware);
 
+routes.get('/me', validatorMiddleware.userShowValidator, UserController.show);
+
 routes.put(
   '/users',
   validatorMiddleware.userUpdateValidator,
-  UserConstroller.update
+  UserController.update
 );
+
+routes.post(
+  '/files',
+  upload.single('file'),
+  validatorMiddleware.fileCreateValidator,
+  FileController.store
+);
+
 routes.get(
   '/lists',
   validatorMiddleware.listIndexValidator,
