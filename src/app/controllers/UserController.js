@@ -1,4 +1,5 @@
 import User from '../schemas/User';
+import File from '../schemas/File';
 
 class UserController {
   async store(req, res) {
@@ -44,6 +45,22 @@ class UserController {
       name,
       email,
       birthday,
+    });
+  }
+
+  async show(req, res) {
+    const user = await User.findById({ _id: req.userId });
+    const { url, name, path } = await File.findById({
+      _id: req.body.avatar_id,
+    });
+
+    return res.json({
+      user,
+      avatar_id: {
+        url,
+        name,
+        path,
+      },
     });
   }
 }
