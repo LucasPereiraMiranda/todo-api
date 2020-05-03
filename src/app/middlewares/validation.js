@@ -38,6 +38,12 @@ const userUpdateValidator = celebrate({
   }),
 });
 
+const userShowValidator = celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+});
+
 const sessionCreateValidator = celebrate({
   [Segments.BODY]: Joi.object().keys({
     email: Joi.string()
@@ -161,6 +167,7 @@ const taskIndexValidator = celebrate({
 export default {
   userCreateValidator,
   userUpdateValidator,
+  userShowValidator,
   sessionCreateValidator,
   fileCreateValidator,
   listIndexValidator,
