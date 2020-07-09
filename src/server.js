@@ -1,7 +1,7 @@
 import server from './app';
 
-server.listen(3333, () => {
-  console.log(`server running port 3333`);
+server.listen(80, () => {
+  console.log(`server running`);
 });
 
 // killall -9 node
