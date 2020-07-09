@@ -1,5 +1,3 @@
-import '../bootstrap';
-
 const configMongodb = {
   url: process.env.MONGO_URL,
   dbName: process.env.DB_NAME,
