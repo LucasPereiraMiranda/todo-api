@@ -47,7 +47,7 @@ UserSchema.pre('save', function(next) {
     }
     this.password = hash;
     // user init without avatar
-    this.avatar_id = '5eaf2a81d8f13f12587c849a';
+    this.avatar_id = '5f077f1af95a8414e2899ce7';
     next();
   });
 });
