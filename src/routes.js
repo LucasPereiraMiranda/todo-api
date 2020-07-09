@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import multer from 'multer';
+import WelcomeController from './app/controllers/WelcomeController';
 import UserController from './app/controllers/UserController';
 import FileController from './app/controllers/FileController';
 import SessionController from './app/controllers/SessionController';
@@ -14,6 +15,8 @@ import validatorMiddleware from './app/middlewares/validation';
 
 const routes = new Router();
 const upload = multer(multerConfig);
+
+routes.get('/', WelcomeController.index);
 
 routes.post(
   '/users',
