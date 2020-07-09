@@ -1,6 +1,7 @@
 
-tmp/uploads/*
-!tmp/uploads/.gitkeep
+temp/uploads/*
+!temp/uploads/.gitkeep
+
 
 # Logs
 logs
