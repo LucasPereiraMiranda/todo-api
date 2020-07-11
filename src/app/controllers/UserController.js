@@ -52,23 +52,43 @@ class UserController {
     const { _id, name, email, birthday, avatar_id } = await User.findById({
       _id: req.userId,
     });
-    const { url, name: file_name, path } = await File.findById({
-      _id: avatar_id,
-    });
-
-    return res.json({
-      user: {
-        _id,
-        name,
-        email,
-        birthday,
-      },
-      avatar: {
-        file_name,
-        path,
-        url,
-      },
-    });
+    try {
+      // avatar pode ser undefined (quando no temos um padrao)
+      // nessa situação, devemos enviar um avatar padrão
+      const { url, name: file_name, path } = await File.findById({
+        _id: avatar_id,
+      });
+      return res.json({
+        user: {
+          _id,
+          name,
+          email,
+          birthday,
+        },
+        avatar: {
+          file_name,
+          path,
+          url,
+        },
+      });
+    } catch (err) {
+      const url = 'https://gravatar.com/avatar/?d=mm';
+      const file_name = 'default photo by gravatar';
+      const path = 'www.gravatar.com/';
+      return res.json({
+        user: {
+          _id,
+          name,
+          email,
+          birthday,
+        },
+        avatar: {
+          file_name,
+          path,
+          url,
+        },
+      });
+    }
   }
 }
 
