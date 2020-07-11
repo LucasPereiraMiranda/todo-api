@@ -1,7 +1,6 @@
 
 temp/uploads/*
 !temp/uploads/.gitkeep
-!temp/uploads/9869472251474456aafb75ffa3b476.png
 
 # Logs
 logs
