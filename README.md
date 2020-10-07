@@ -18,7 +18,7 @@
   </a>
 
   <a href="https://github.com/LucasPereiraMiranda/todo-api/issues">
-    <img alt="GitHub license" src="https://img.shields.io/github/license/LucasPereiraMiranda/todo-api">
+    <img alt="GitHub license" src="https://img.shields.io/github/license/LucasPereiraMiranda/topic-modeling">
   </a>
 </p>
 
